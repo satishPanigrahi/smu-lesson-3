@@ -59,16 +59,16 @@ function refreshCharts(data, columnarData){
     d3.select('body table').remove();
 
 ////// Step 2: Turn our data into a Table
-     // tabulate1(data);
+     tabulate1(data);
 
 ////// Step 3: Reflect the highs and lows with color
-    // tabulate2(data);
+    tabulate2(data);
 
 ////// Step 4: Relativize the data with a rolling average
-    // tabulate3(data);
+    tabulate3(data);
 
 ////// Step 5: Turn our data into line charts
-    // drawLineChart(columnarData);
+    drawLineChart(columnarData);
 }
 
 
@@ -281,73 +281,73 @@ function drawLineChart(data){
 STEP 5A: USE OUR DATA FROM EARLIER
 =======================================================*/
 
-  // data = columnarData;
+  data = columnarData;
 
-  // chart = c3.generate({
-  //     bindto: $('#chart')[0],
-  //     data: {
-  //         columns: columnarData,
-  //     },
-  //     point: {
-  //       r: 1.5,
-  //     },
-  //     regions: [
-  //       {start: 0, end: 12},
-  //       {start: 24, end: 36},
-  //     ],
-  //     legend: { position: 'right' },
-  // }); //c3.generate
+  chart = c3.generate({
+      bindto: $('#chart')[0],
+      data: {
+          columns: columnarData,
+      },
+      point: {
+        r: 1.5,
+      },
+      regions: [
+        {start: 0, end: 12},
+        {start: 24, end: 36},
+      ],
+      legend: { position: 'right' },
+  }); //c3.generate
 
 
 /*=======================================================
 STEP 5B: RELATIVIZED LINES
 =======================================================*/
 
-//   $('#world-container').append('<div id="chart2"></div>');
+  $('#world-container').append('<div id="chart2"></div>');
 
 
-// //// cd2: minute by minute differences
-//   columnarData2 = _.map(data, function(obj,iter){
-//     return _.map(obj,function(obj2,iter2){
-//       if (isNaN(obj2)) {
-//         return obj2;
-//       } else if (isNaN(obj[iter2-1])) {
-//         return 0;
-//       } else {
-//         return obj2-obj[iter2-1]
-//       } //if
-//     }) //innermap
-//   }) //outermap
+//// cd2: minute by minute differences
+  columnarData2 = _.map(data, function(obj,iter){
+    return _.map(obj,function(obj2,iter2){
+      if (isNaN(obj2)) {
+        return obj2;
+      } else if (isNaN(obj[iter2-1])) {
+        return 0;
+      } else {
+        return obj2-obj[iter2-1]
+      } //if
+    }) //innermap
+  }) //outermap
 
-// //// cd3: "How well has this team been playing" in the past minute compared to the past 12 minutes
-//   columnarData3 = _.map(columnarData, function(obj,iter){
-//   theData3 = _.map(obj.slice(1,obj.length), function(obj2,iter2){ return parseFloat(obj2) });
-//   sma12 = simple_moving_averager(12);
-//   rolling = [obj[0]];
-//   for (var i in theData3) {
-//       var n = theData3[i];
-//       rolling.push(n/sma12(n));
-//   } //for
-//   // console.log(rolling);
-//   return rolling;
-//   }) //map
+//// cd3: "How well has this team been playing" in the past minute compared to the past 12 minutes
+  columnarData3 = _.map(columnarData, function(obj,iter){
+  theData3 = _.map(obj.slice(1,obj.length), function(obj2,iter2){ return parseFloat(obj2) });
+  sma12 = simple_moving_averager(12);
+  rolling = [obj[0]];
+  for (var i in theData3) {
+      var n = theData3[i];
+      rolling.push(n/sma12(n));
+  } //for
+  // console.log(rolling);
+  return rolling;
+  }) //map
 
-//     chart2 = c3.generate({
-//         bindto: $('#chart2')[0],
-//         data: {
-//             // columns: columnarData2
-//             columns: columnarData3,
-//             type: 'spline'
-//         },
-//         point: {
-//           r: 1.5,
-//         },
-//         regions: [
-//           {start: 0, end: 12},
-//           {start: 24, end: 36},
-//         ],
-//         legend: { position: 'right' },
-//     });
+    chart2 = c3.generate({
+        bindto: $('#chart2')[0],
+        data: {
+            // columns: columnarData2
+            columns: columnarData3,
+            type: 'spline'
+        },
+        point: {
+          r: 1.5,
+        },
+        regions: [
+          {start: 0, end: 12},
+          {start: 24, end: 36},
+        ],
+        legend: { position: 'right' },
+    });
 
 
 
